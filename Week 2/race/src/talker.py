@@ -5,8 +5,8 @@ from race.msg import drive_values
 from race.msg import drive_param
 from std_msgs.msg import Bool
 
-pub = rospy.Publisher('drive_pwm', drive_values, queue_size=1)
-em_pub = rospy.Publisher('eStop', Bool, queue_size=1)
+pub = rospy.Publisher('drive_pwm', drive_values, queue_size=10)
+em_pub = rospy.Publisher('eStop', Bool, queue_size=10)
 
 # function to map from one range to another, similar to arduino
 def arduino_map(x, in_min, in_max, out_min, out_max):
@@ -21,8 +21,8 @@ def callback(data):
 	pwm1 = arduino_map(velocity,-100,100,6554,13108);
 	pwm2 = arduino_map(angle,-100,100,6554,13108);
 	msg = drive_values()
-	msg.pwm_drive = int(pwm1)
-	msg.pwm_angle = int(pwm2)
+	msg.pwm_drive = pwm1
+	msg.pwm_angle = pwm2
 	pub.publish(msg)
 
 def talker():
